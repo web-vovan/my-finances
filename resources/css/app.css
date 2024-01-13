@@ -1,0 +1,50 @@
+.mr-0 {
+    margin-right: 0 !important;
+}
+
+.mb-1 {
+    margin-bottom: .25rem !important;
+}
+
+.mb-2 {
+    margin-bottom: .5rem !important;
+}
+
+.mb-3 {
+    margin-bottom: 1rem !important;
+}
+
+.mb-4 {
+    margin-bottom: 1.5rem !important;
+}
+
+.brand-logo i.material-icons {
+    font-size: 3rem;
+}
+
+.home-container {
+    height: calc(100vh - 56px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cost-form > .row{
+    display: flex;
+    flex-direction: column;
+}
+
+.cost-field {
+    font-size: 2rem !important;
+    color: teal;
+}
+
+.category-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.category-list .item {
+
+}

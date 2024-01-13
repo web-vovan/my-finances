@@ -10,11 +10,14 @@ class Cost extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
         'price',
         'comment',
         'category_id',
         'user_id',
+        'date'
     ];
 
     public function category(): BelongsTo
