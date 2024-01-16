@@ -7,6 +7,7 @@
         @vite('resources/js/app.js')
         @vite('resources/css/app.css')
         @livewireStyles
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
         <title>{{ $title ?? 'Page Title' }}</title>
@@ -15,7 +16,7 @@
         <div class="navbar-fixed">
             <nav class="nav-extended teal">
                 <div class="nav-wrapper">
-                    <a href="/" wire:navigate class="brand-logo">
+                    <a href="/" class="brand-logo">
                         <i class="material-icons medium mr-0">monetization_on</i> MyFinance
                     </a>
                     <a href="#" data-target="mobile-menu" class="sidenav-trigger"><i class="material-icons">menu</i></a>
@@ -24,8 +25,11 @@
         </div>
 
         <ul class="sidenav" id="mobile-menu">
-            <li><a href="sass.html">Категории</a></li>
-            <li><a href="badges.html">Статистика</a></li>
+            @auth
+                <li><i class="material-icons prefix">person</i> {{ auth()->user()->login }}</li>
+            @endauth
+
+            <li><a href="/categories">Категории</a></li>
         </ul>
 
         <div class="container">
@@ -34,7 +38,6 @@
 
         @livewireScripts
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
         <script>
             M.AutoInit();
         </script>

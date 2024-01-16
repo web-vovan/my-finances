@@ -1,11 +1,11 @@
-<div>
+<div class="cost-page">
     <div class="row">
         <form class="cost-form" wire:submit="save">
             <div class="row">
                 <div class="col">
                     <div class="input-field">
                         <i class="material-icons prefix">attach_money</i>
-                        <input required id="icon_prefix" type="number" class="center-align cost-field" wire:model="price">
+                        <input required id="icon_prefix" type="number" class="center-align price-field" wire:model="price">
                     </div>
                 </div>
                 <div class="col">

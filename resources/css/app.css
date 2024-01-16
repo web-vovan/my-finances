@@ -18,6 +18,26 @@
     margin-bottom: 1.5rem !important;
 }
 
+.mt-0 {
+    margin-top: 0 !important;
+}
+
+.mt-1 {
+    margin-top: .25rem !important;
+}
+
+.mt-2 {
+    margin-top: .5rem !important;
+}
+
+.mt-3 {
+    margin-top: 1rem !important;
+}
+
+.mb-4 {
+    margin-bottom: 1.5rem !important;
+}
+
 .brand-logo i.material-icons {
     font-size: 3rem;
 }
@@ -29,22 +49,44 @@
     align-items: center;
 }
 
-.cost-form > .row{
+.cost-form > .row,
+.category-edit-form > .row,
+.user-login-form > .row
+{
     display: flex;
     flex-direction: column;
 }
 
-.cost-field {
+.cost-page .price-field {
     font-size: 2rem !important;
     color: teal;
 }
 
-.category-list {
+.cost-page .category-list {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
 }
 
-.category-list .item {
+.category-page .category-list {
+    overflow: visible;
+}
 
+.category-page .edit-list li {
+    display: flex;
+    justify-content: center;
+}
+
+.category-page .collection-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.category-page .collection-header h4 {
+
+}
+
+.modal .modal-footer.center-align {
+    text-align: center;
 }
