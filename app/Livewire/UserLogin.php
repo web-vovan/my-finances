@@ -14,7 +14,7 @@ class UserLogin extends Component
     #[Validate('required')]
     public $password;
 
-    public function logintest()
+    public function loginUser()
     {
         $this->validate();
 
@@ -29,9 +29,7 @@ class UserLogin extends Component
             return redirect()->to('/');
         }
 
-        return back()->withErrors([
-            'loginr' => 'Неверный логин или пароль',
-        ]);
+        return back();
     }
 
     public function render()

@@ -1,6 +1,6 @@
 <div>
     <div class="row">
-        <form class="user-login-form" wire:submit="logintest">
+        <form class="user-login-form" wire:submit="loginUser">
             <div class="row">
                 <div class="col">
                     <div class="input-field">
@@ -15,10 +15,6 @@
                         <input required id="icon_prefix" type="text" wire:model="password">
                     </div>
                 </div>
-
-                @error('loginr')
-                    <span class="error">{{ $message }}</span>
-                @enderror
 
                 <div class="col center-align">
                     <button type="submit" class="waves-effect waves-light btn-large">

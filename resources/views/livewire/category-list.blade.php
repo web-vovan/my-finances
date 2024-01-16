@@ -2,7 +2,7 @@
     <ul class="collection with-header category-list">
         <li class="collection-header">
             <h4 class="mt-3 mb-3">Категории</h4>
-            <a href="/categories/create" class="btn-floating waves-effect waves-light mt-4">
+            <a href="/categories/create" class="btn-floating waves-effect waves-light">
                 <i class="material-icons">add</i>
             </a>
         </li>

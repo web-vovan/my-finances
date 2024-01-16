@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\CostController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\API\CategoryController;
+use App\Http\Controllers\API\CostController;
+use App\Http\Controllers\API\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [UserController::class, 'login']);

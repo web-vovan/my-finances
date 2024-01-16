@@ -26,7 +26,17 @@
 
         <ul class="sidenav" id="mobile-menu">
             @auth
-                <li><i class="material-icons prefix">person</i> {{ auth()->user()->login }}</li>
+                <li class="user">
+                    <div class="user-info">
+                        <i class="material-icons prefix mr-2">person</i> {{ auth()->user()->login }}
+                    </div>
+                    <div>
+                        <form action="/logout" method="POST">
+                            @csrf
+                            <button type="submit" class="waves-effect waves-light btn-small"><i class="material-icons">exit_to_app</i></button>
+                        </form>
+                    </div>
+                </li>
             @endauth
 
             <li><a href="/categories">Категории</a></li>

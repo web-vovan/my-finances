@@ -27,7 +27,7 @@ class CreateCost extends Component
         Cost::create([
             'price' => $this->price,
             'category_id' => $this->categoryId,
-            'user_id' => 1,
+            'user_id' => auth()->user()->id,
             'date' => Carbon::create($this->date)->toDateString(),
             'comment' => $this->comment
         ]);
