@@ -19,28 +19,34 @@
                     <a href="/" class="brand-logo">
                         <i class="material-icons medium mr-0">monetization_on</i> MyFinance
                     </a>
-                    <a href="#" data-target="mobile-menu" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                    @auth()
+                        <a href="#" data-target="mobile-menu" class="sidenav-trigger">
+                            <i class="material-icons">menu</i>
+                        </a>
+                    @endauth
                 </div>
             </nav>
         </div>
 
-        <ul class="sidenav" id="mobile-menu">
-            @auth
-                <li class="user">
-                    <div class="user-info">
-                        <i class="material-icons prefix mr-2">person</i> {{ auth()->user()->login }}
-                    </div>
-                    <div>
-                        <form action="/logout" method="POST">
-                            @csrf
-                            <button type="submit" class="waves-effect waves-light btn-small"><i class="material-icons">exit_to_app</i></button>
-                        </form>
-                    </div>
-                </li>
-            @endauth
+        @auth()
+            <ul class="sidenav" id="mobile-menu">
+                @auth
+                    <li class="user">
+                        <div class="user-info">
+                            <i class="material-icons prefix mr-2">person</i> {{ auth()->user()->login }}
+                        </div>
+                        <div>
+                            <form action="/logout" method="POST">
+                                @csrf
+                                <button type="submit" class="waves-effect waves-light btn-small"><i class="material-icons">exit_to_app</i></button>
+                            </form>
+                        </div>
+                    </li>
+                @endauth
 
-            <li><a href="/categories">Категории</a></li>
-        </ul>
+                <li><a href="/categories">Категории</a></li>
+            </ul>
+        @endauth
 
         <div class="container">
             {{ $slot }}

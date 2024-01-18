@@ -6,20 +6,18 @@ use App\Models\Category;
 use App\Models\Cost;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
-use Livewire\Attributes\Computed;
 use Livewire\Component;
 
-class CreateCost extends Component
+class CostCreate extends Component
 {
     public $price = null;
     public $categoryId = null;
-    public $date = null;
+    public $date;
     public $comment = null;
 
-    #[Computed]
-    public function customDate()
+    public function mount()
     {
-        return Carbon::now()->toDateString();
+        $this->date = Carbon::now();
     }
 
     public function save()
@@ -28,7 +26,8 @@ class CreateCost extends Component
             'price' => $this->price,
             'category_id' => $this->categoryId,
             'user_id' => auth()->user()->id,
-            'date' => Carbon::create($this->date)->toDateString(),
+            'date' => Carbon::create($this->date ?? Carbon::now())
+                ->toDateString(),
             'comment' => $this->comment
         ]);
 
@@ -42,7 +41,7 @@ class CreateCost extends Component
 
     public function render(): View
     {
-        return view('livewire.create-cost')
+        return view('livewire.cost-create')
             ->with([
                 'categories' => Category::all(),
             ]);

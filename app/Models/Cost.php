@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Number;
 
 class Cost extends Model
 {
@@ -19,6 +20,11 @@ class Cost extends Model
         'user_id',
         'date'
     ];
+
+    public function priceFormat(): string
+    {
+        return number_format($this->price, 0, '', ' ') . ' ₽';
+    }
 
     public function category(): BelongsTo
     {

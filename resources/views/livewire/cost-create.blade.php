@@ -50,7 +50,7 @@
             let elem = document.querySelectorAll('.datepicker');
             let instance = M.Datepicker.getInstance(elem[0]);
 
-            instance.setDate(new Date(Date.parse("{{ $this->customDate }}")))
+            instance.setDate(new Date(Date.parse("{{ $date }}")))
             instance.setInputValue()
 
             elem[0].addEventListener('change', function(event) {

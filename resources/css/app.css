@@ -62,7 +62,7 @@
     font-size: 3rem;
 }
 
-.home-container {
+.home-page {
     height: calc(100vh - 56px);
     display: flex;
     justify-content: center;
@@ -88,11 +88,13 @@
     justify-content: space-around;
 }
 
-.category-page .category-list {
+.category-page .category-list,
+.home-page .costs-list{
     overflow: visible;
 }
 
-.category-page .edit-list li {
+.category-page .edit-list li,
+.home-page .edit-list li {
     display: flex;
     justify-content: center;
 }
@@ -125,4 +127,21 @@
 #mobile-menu .user .user-info {
     display: flex;
     align-items: center;
+}
+
+.wrap-home {
+    height: 100%;
+    width: 100%;
+}
+
+.wrap-home .wrap-btn {
+    height: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wrap-home .wrap-cost {
+    height: 70%;
+    overflow: auto;
 }
