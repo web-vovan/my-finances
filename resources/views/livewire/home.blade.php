@@ -26,7 +26,7 @@
                                     </a>
                                     <ul id="dropdown{{ $key }}"  class="dropdown-content edit-list">
                                         <li>
-                                            <a href="/categories/{{ $cost->id }}/edit">
+                                            <a href="/costs/{{ $cost->id }}/edit">
                                                 <i class="material-icons mr-0">edit</i>
                                             </a>
                                         </li>
