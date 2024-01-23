@@ -34,6 +34,13 @@
             "type": "image/png",
             "form_factor": "wide",
             "label": "Запись расхода"
+        },
+        {
+            "src": "/screenshots/image2.png",
+            "sizes": "320x500",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "Запись расхода"
         }
     ]
 }
