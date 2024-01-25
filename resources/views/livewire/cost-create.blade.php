@@ -3,9 +3,9 @@
         <form class="cost-form" wire:submit="save">
             <div class="row">
                 <div class="col">
-                    <div class="input-field" x-init="$refs.costField.click()">
+                    <div class="input-field">
                         <i class="material-icons prefix">attach_money</i>
-                        <input required id="icon_prefix" type="number" class="center-align price-field" wire:model="price" x-ref="costField" inputmode="numeric">
+                        <input required id="cost-field" type="number" class="center-align price-field" wire:model="price" inputmode="numeric">
                     </div>
                 </div>
                 <div class="col">
@@ -56,6 +56,13 @@
             elem[0].addEventListener('change', function(event) {
                 $wire.$set('date', event.target.value)
             })
+
+            let costField = document.getElementById('cost-field')
+
+            setTimeout(() => {
+                costField.click()
+                costField.focus()
+            }, 1000)
         </script>
     @endscript
 </div>
