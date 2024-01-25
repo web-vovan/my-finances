@@ -59,23 +59,19 @@
 
             let costField = document.getElementById('cost-field')
 
-            // setTimeout(() => {
-            //     costField.click()
-            //     costField.focus()
-            // }, 1000)
-
-            hideKeyboard(costField);
-
-            function hideKeyboard(el) {
-                var att = document.createAttribute("readonly");
-                el.setAttributeNode(att); // Force keyboard to hide on input field.
-                setTimeout(function() {
-                    el.blur(); //close the keyboard
-                    el.focus(); //focus on the input
-                    // Remove readonly attribute after keyboard is hidden.
-                    el.removeAttribute('readonly');
-                }, 100);
+            function openIosKeyboard(el) {
+                const input = document.createElement("input");
+                el.setAttribute("type", "text");
+                el.setAttribute("style", "position: fixed; top: -100px; left: -100px;");
+                document.body.appendChild(el);
+                el.focus();
+                // it's safe to remove the fake input after a 30s timeout
+                setTimeout(() => {
+                    document.body.removeChild(el);
+                }, 30 * 1000);
             }
+
+            openIosKeyboard(costField)
         </script>
     @endscript
 </div>
