@@ -3,9 +3,9 @@
         <form class="cost-form" wire:submit="save">
             <div class="row">
                 <div class="col">
-                    <div class="input-field">
+                    <div class="input-field" x-init="$refs.costField.click()">
                         <i class="material-icons prefix">attach_money</i>
-                        <input required id="icon_prefix" type="number" class="center-align price-field" wire:model="price" autofocus>
+                        <input required id="icon_prefix" type="number" class="center-align price-field" wire:model="price" x-ref="costField" inputmode="numeric">
                     </div>
                 </div>
                 <div class="col">
