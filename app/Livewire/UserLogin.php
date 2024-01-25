@@ -23,7 +23,7 @@ class UserLogin extends Component
             'password' => $this->password,
         ];
 
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials, true)) {
             session()->regenerate();
 
             return redirect()->to('/');
