@@ -59,10 +59,23 @@
 
             let costField = document.getElementById('cost-field')
 
-            setTimeout(() => {
-                costField.click()
-                costField.focus()
-            }, 1000)
+            // setTimeout(() => {
+            //     costField.click()
+            //     costField.focus()
+            // }, 1000)
+
+            hideKeyboard(costField);
+
+            function hideKeyboard(el) {
+                var att = document.createAttribute("readonly");
+                el.setAttributeNode(att); // Force keyboard to hide on input field.
+                setTimeout(function() {
+                    el.blur(); //close the keyboard
+                    el.focus(); //focus on the input
+                    // Remove readonly attribute after keyboard is hidden.
+                    el.removeAttribute('readonly');
+                }, 100);
+            }
         </script>
     @endscript
 </div>
