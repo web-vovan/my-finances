@@ -5,7 +5,7 @@
                 <div class="col">
                     <div class="input-field">
                         <i class="material-icons prefix">attach_money</i>
-                        <input required id="icon_prefix" type="number" class="center-align price-field" wire:model="price">
+                        <input required id="icon_prefix" type="number" class="center-align price-field" wire:model="price" autofocus>
                     </div>
                 </div>
                 <div class="col">
