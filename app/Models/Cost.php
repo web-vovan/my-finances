@@ -21,6 +21,10 @@ class Cost extends Model
         'date'
     ];
 
+    protected $casts = [
+        'date' => 'date'
+    ];
+
     public function priceFormat(): string
     {
         return number_format($this->price, 0, '', ' ') . ' ₽';

@@ -12,7 +12,7 @@
                         @foreach($costs as $key => $cost)
                             <tr>
                                 <td>
-                                    {{ $cost->date }}
+                                    {{ $cost->date->isoFormat('D MMM') }}
                                 </td>
                                 <td>
                                     {{ $cost->priceFormat() }}
