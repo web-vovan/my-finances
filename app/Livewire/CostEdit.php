@@ -31,7 +31,6 @@ class CostEdit extends Component
         $this->cost->update([
             'price' => $this->price,
             'category_id' => $this->categoryId,
-            'user_id' => auth()->user()->id,
             'date' => Carbon::create($this->date ?? Carbon::now())
                 ->toDateString(),
             'comment' => $this->comment

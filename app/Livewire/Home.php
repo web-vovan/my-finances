@@ -21,6 +21,7 @@ class Home extends Component
         return view('livewire.home')
             ->with([
                 'costs' => Cost::query()
+                    ->where('user_id', auth()->user()->id)
                     ->orderByDesc('date')
                     ->orderByDesc('id')
                     ->with('category')
