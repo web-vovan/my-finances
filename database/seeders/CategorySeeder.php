@@ -16,7 +16,9 @@ class CategorySeeder extends Seeder
     {
         DB::table('categories')->insert([
             ['name' => 'продукты'],
-            ['name' => 'машина'],
+            ['name' => 'авто'],
+            ['name' => 'дом'],
+            ['name' => 'спорт'],
         ]);
     }
 }
