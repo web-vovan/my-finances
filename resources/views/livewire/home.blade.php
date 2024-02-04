@@ -6,6 +6,10 @@
                     <i class="material-icons">add</i>
                 </a>
             </div>
+            <div class="wrap-history left-align">
+                <div>Расходы за {{ $month }}:</div>
+                <div class="flow-text font-weight-bold">{{ priceFormat($monthTotal) }}</div>
+            </div>
             <div class="wrap-cost">
                 <table>
                     <tbody>
@@ -15,7 +19,7 @@
                                     {{ $cost->date->isoFormat('D MMM') }}
                                 </td>
                                 <td>
-                                    {{ $cost->priceFormat() }}
+                                    {{ $cost->priceFormat }}
                                 </td>
                                 <td>
                                     {{ $cost->category?->name }}

@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Cost;
+use Carbon\Carbon;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -26,7 +27,11 @@ class Home extends Component
                     ->orderByDesc('id')
                     ->with('category')
                     ->limit(30)
-                    ->get()
+                    ->get(),
+                'month' => Carbon::now()->isoFormat('MMMM'),
+                'monthTotal' => Cost::query()
+                    ->whereMonth('date', date('m'))
+                    ->sum('price')
             ]);
     }
 }

@@ -142,6 +142,20 @@
 }
 
 .wrap-home .wrap-cost {
-    height: 70%;
+    height: 55%;
     overflow: auto;
+}
+
+.wrap-home .wrap-history {
+    height: 15%;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-bottom: 1px solid rgba(0,0,0,0.12);;
+    border-top: 1px solid rgba(0,0,0,0.12);;
+}
+
+.font-weight-bold {
+    font-weight: bold;
 }
