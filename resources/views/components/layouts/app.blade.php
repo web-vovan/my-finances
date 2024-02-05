@@ -33,23 +33,25 @@
         </div>
 
         @auth()
-            <ul class="sidenav" id="mobile-menu">
-                @auth
-                    <li class="user">
+            <div class="sidenav" id="mobile-menu">
+                <div class="logo teal">
+                    <i class="material-icons medium mr-0">monetization_on</i> MyFinance
+                </div>
+                <ul class="menu">
+                    <li class="user flex justify-content-between">
                         <div class="user-info">
-                            <i class="material-icons prefix mr-2">person</i> {{ auth()->user()->login }}
+                            <i class="material-icons prefix small mr-2">person</i> {{ auth()->user()->login }}
                         </div>
-                        <div>
-                            <form action="/logout" method="POST">
+                        <div class="flex align-items-center">
+                            <form  class="flex" action="/logout" method="POST">
                                 @csrf
                                 <button type="submit" class="waves-effect waves-light btn-small"><i class="material-icons">exit_to_app</i></button>
                             </form>
                         </div>
                     </li>
-                @endauth
-
-                <li><a href="/categories">Категории</a></li>
-            </ul>
+                    <li><a href="/categories"> <i class="material-icons prefix small mr-2">list</i> Категории</a></li>
+                </ul>
+            </div>
         @endauth
 
         <div class="container">
