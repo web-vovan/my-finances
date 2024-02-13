@@ -18,6 +18,7 @@ class CostCreate extends Component
     public function mount()
     {
         $this->date = Carbon::now();
+        $this->categoryId = 1;
     }
 
     public function save()
