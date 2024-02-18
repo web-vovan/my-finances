@@ -65,7 +65,7 @@
             <a class="waves-effect waves-light btn confirm-button"><i class="material-icons left">delete</i>Удалить</a>
         </div>
     </div>
-
+    @script
     <script>
         let deleteButtons = document.querySelectorAll('.delete-btn')
         let confirmButton = document.querySelector('.confirm-button')
@@ -93,4 +93,5 @@
             instance.close()
         })
     </script>
+    @endscript
 </div>

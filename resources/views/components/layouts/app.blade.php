@@ -10,7 +10,7 @@
         @vite('resources/js/app.js')
         @vite('resources/css/app.css')
         @livewireStyles
-        <script src="/js/materialize.min.js"></script>
+
         <link rel="stylesheet" href="/css/materialize.min.css">
 
         <title>MyFinance</title>
@@ -57,8 +57,9 @@
             {{ $slot }}
         </div>
 
-        @livewireScripts
 
+        @livewireScripts
+        <script src="/js/materialize.min.js"></script>
         <script>
             M.AutoInit();
         </script>

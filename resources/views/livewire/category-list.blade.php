@@ -42,6 +42,7 @@
         </div>
     </div>
 
+    @script
     <script>
         let deleteButtons = document.querySelectorAll('.delete-btn')
         let confirmButton = document.querySelector('.confirm-button')
@@ -69,4 +70,5 @@
             instance.close()
         })
     </script>
+    @endscript
 </div>
