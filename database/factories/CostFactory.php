@@ -20,7 +20,7 @@ class CostFactory extends Factory
         return [
             'price' => rand(100, 3000),
             'category_id' => rand(1, 4),
-            'date' => Carbon::now()->subDays(rand(1, 60)),
+            'date' => Carbon::now()->subDays(rand(0, 60)),
             'comment' => fake()->text(10),
             'user_id' => rand(1, 2)
         ];

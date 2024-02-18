@@ -31,6 +31,11 @@ class Home extends Component
                 'month' => Carbon::now()->isoFormat('MMMM'),
                 'monthTotal' => Cost::query()
                     ->whereMonth('date', date('m'))
+                    ->whereYear('date', date('Y'))
+                    ->where('user_id', auth()->user()->id)
+                    ->sum('price'),
+                'todayTotal' => Cost::query()
+                    ->where('date', Carbon::now()->toDateString())
                     ->where('user_id', auth()->user()->id)
                     ->sum('price')
             ]);

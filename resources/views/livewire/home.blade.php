@@ -1,14 +1,20 @@
 <div>
-    <div class="center-align home-page">
+    <div class="center-align home-page flex justify-content-center align-items-center">
         <div class="wrap-home">
             <div class="wrap-btn">
                 <a href="/costs/create" class="btn-floating btn-large waves-effect waves-light">
                     <i class="material-icons">add</i>
                 </a>
             </div>
-            <div class="wrap-history left-align">
-                <div>Расходы за {{ $month }}:</div>
-                <div class="flow-text font-weight-bold">{{ priceFormat($monthTotal) }}</div>
+            <div class="wrap-history flex justify-content-between align-items-center">
+                <div class="left-align">
+                    <div>Расходы за {{ $month }}:</div>
+                    <div class="flow-text font-weight-bold">{{ priceFormat($monthTotal) }}</div>
+                </div>
+                <div class="right-align">
+                    <div>Расходы за сегодня:</div>
+                    <div class="flow-text font-weight-bold">{{ priceFormat($todayTotal) }}</div>
+                </div>
             </div>
             <div class="wrap-cost">
                 <table>
