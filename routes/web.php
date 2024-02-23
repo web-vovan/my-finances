@@ -7,6 +7,7 @@ use App\Livewire\CategoryList;
 use App\Livewire\CostCreate;
 use App\Livewire\CostEdit;
 use App\Livewire\Home;
+use App\Livewire\Statistic;
 use App\Livewire\UserLogin;
 use App\Models\Cost;
 use Illuminate\Support\Facades\Route;
@@ -33,6 +34,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/costs/create', CostCreate::class);
     Route::get('/costs/{id}/edit', CostEdit::class);
+
+    Route::get('/statistic', Statistic::class);
 
     Route::post('/logout', [UserController::class, 'logout']);
 });
