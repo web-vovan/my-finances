@@ -2,23 +2,19 @@
 
 namespace App\Livewire;
 
-use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class Statistic extends Component
 {
-    public int $month;
-    public int $year;
-    public array $monthData;
-    public string $currentDateToString;
+    public $month;
+    public $year;
+    public array $dateArr;
 
     public function mount()
     {
-        $this->month = date('m');
+        $this->month = date('n');
         $this->year = date('Y');
-
-        $this->currentDateToString = $this->year . '|' . $this->month;
 
         $data = DB::table('costs')
             ->select([
@@ -31,12 +27,22 @@ class Statistic extends Component
             ->get();
 
         $data->map(function($item) {
-            $date = Carbon::createFromFormat('Y m', "$item->year $item->month");
-            $item->monthName = $date->monthName;
-            $item->dateToString = $date->year . '|' . $date->month;
+            $item->monthName = getMonthName($item->month);
         });
 
-        $this->monthData = $data->toArray();
+        $this->dateArr = $data->reduce(function($acc, $item) {
+            $acc[$item->year][] = [
+                'month' => $item->month,
+                'monthName' => $item->monthName,
+            ];
+
+            return $acc;
+        }, []);
+    }
+
+    public function changeYear()
+    {
+        $this->month = $this->dateArr[$this->year][0]['month'];
     }
 
     public function render()
@@ -45,14 +51,18 @@ class Statistic extends Component
             ->select(DB::raw('SUM(t1.price) as totalPrice'), 't2.name')
             ->leftJoin('categories as t2', 't1.category_id', '=', 't2.id')
             ->whereMonth('date', '=', $this->month)
+            ->whereYear('date', '=', $this->year)
             ->groupBy('t2.name')
-            ->orderBy('totalPrice')
+            ->orderByDesc('totalPrice')
             ->get();
 
         return view('livewire.statistic')
             ->with([
+                'data' => $data,
+                'totalPrice' => $data->sum('totalPrice'),
                 'labels' => json_encode($data->pluck('name')),
-                'data' => json_encode($data->pluck('totalPrice'))
+                'values' => json_encode($data->pluck('totalPrice')),
+                'monthName' => getMonthName($this->month),
             ]);
     }
 }

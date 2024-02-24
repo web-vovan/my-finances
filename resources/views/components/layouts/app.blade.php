@@ -48,7 +48,12 @@
                             </form>
                         </div>
                     </li>
-                    <li><a href="/categories"> <i class="material-icons prefix small mr-2">list</i> Категории</a></li>
+                    <li>
+                        <a href="/categories"> <i class="material-icons prefix small mr-2">list</i> Категории</a>
+                    </li>
+                    <li>
+                        <a href="/statistic"> <i class="material-icons prefix small mr-2">show_chart</i> Статистика</a>
+                    </li>
                 </ul>
             </div>
         @endauth
