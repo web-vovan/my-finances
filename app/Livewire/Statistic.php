@@ -52,6 +52,7 @@ class Statistic extends Component
             ->leftJoin('categories as t2', 't1.category_id', '=', 't2.id')
             ->whereMonth('date', '=', $this->month)
             ->whereYear('date', '=', $this->year)
+            ->where('user_id', '=' ,auth()->user()->id)
             ->groupBy('t2.name')
             ->orderByDesc('totalPrice')
             ->get();
