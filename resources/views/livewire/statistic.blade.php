@@ -1,18 +1,32 @@
 <div>
-    <div class="row mt-4">
-        <div class="col s6">
+    <div class="row mt-4 flex align-items-center">
+        <div class="col s3">
             <select wire:model="year" wire:change="changeYear" class="browser-default">
                 @foreach ($dateArr as $key => $item)
                     <option value="{{ $key }}">{{ $key }}</option>
                 @endforeach
             </select>
         </div>
-        <div class="col s6">
+        <div class="col s4">
             <select wire:model.live="month" wire:key="{{ $year }}" class="browser-default">
                 @foreach ($dateArr[$year] as $key => $item)
                     <option value="{{ $item['month'] }}">{{ $item['monthName'] }}</option>
                 @endforeach
             </select>
+        </div>
+        <div class="col s5">
+            <div class="switch">
+                <label>
+                    <input type="checkbox" wire:model.live="isFamily">
+                    <span class="lever"></span>
+                    @if ($isFamily)
+                        <span>семья</span>
+                    @else
+                        <span>мое</span>
+                    @endif
+                </label>
+
+            </div>
         </div>
     </div>
 

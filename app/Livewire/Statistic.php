@@ -10,6 +10,7 @@ class Statistic extends Component
     public $month;
     public $year;
     public array $dateArr;
+    public $isFamily = false;
 
     public function mount()
     {
@@ -47,12 +48,21 @@ class Statistic extends Component
 
     public function render()
     {
+        $users = $this->isFamily
+            ? DB::table('users')
+                ->select('id')
+                ->where('family_id', '=', auth()->user()->family_id)
+                ->get()
+                ->pluck('id')
+                ->toArray()
+            : [auth()->user()->id];
+
         $data = DB::table('costs as t1')
             ->select(DB::raw('SUM(t1.price) as totalPrice'), 't2.name')
             ->leftJoin('categories as t2', 't1.category_id', '=', 't2.id')
             ->whereMonth('date', '=', $this->month)
             ->whereYear('date', '=', $this->year)
-            ->where('user_id', '=' ,auth()->user()->id)
+            ->whereIn('user_id', $users)
             ->groupBy('t2.name')
             ->orderByDesc('totalPrice')
             ->get();
