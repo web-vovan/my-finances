@@ -44,8 +44,24 @@ if (!function_exists('percentRatio')) {
      * Функция вычисляет процентное соотношение чисел из массива
      *
      * @param array $data
+     * @return mixed
      */
-    function percentRatio(array $data) {
+    function percentRatio(array $data): array {
+        $sum = 0;
 
+        foreach ($data as $item) {
+            $sum += $item;
+        }
+
+        return array_reduce($data, function ($acc, $item) use ($sum) {
+            $percent = $item * 100 / $sum;
+
+            $acc[] = [
+                'item' => $item,
+                'percent' => intval(round($percent)),
+            ];
+
+            return $acc;
+        }, []);
     }
 }

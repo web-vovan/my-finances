@@ -67,13 +67,27 @@ class Statistic extends Component
             ->orderByDesc('totalPrice')
             ->get();
 
+        $percentRatio = collect(
+            percentRatio(
+                $data
+                    ->map(fn ($item) => (int) $item->totalPrice)
+                    ->toArray()
+            )
+        );
+
+        $data->each(function($item) use ($percentRatio) {
+           $item->percent = $percentRatio
+               ->where('item', $item->totalPrice)
+               ->value('percent');
+        });
+
         return view('livewire.statistic')
             ->with([
                 'data' => $data,
                 'totalPrice' => $data->sum('totalPrice'),
                 'labels' => json_encode($data->pluck('name')),
                 'values' => json_encode($data->pluck('totalPrice')),
-                'monthName' => getMonthName($this->month),
+                'monthName' => getMonthName($this->month)
             ]);
     }
 }
