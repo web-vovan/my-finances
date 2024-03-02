@@ -18,7 +18,7 @@ class Statistic extends Component
 
     public function mount()
     {
-        $this->month = date('n');
+        $this->month = 2;
         $this->year = date('Y');
 
         $this->dateData = $this->getDateData();
