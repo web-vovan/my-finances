@@ -21,6 +21,34 @@
                                 {{ $category->name }}
                             </a>
                         @endforeach
+
+                        @if($hideCategories)
+                            @if(!$showHideCategories)
+                                <div class="w-100"></div>
+                                <div
+                                    @class([
+                                        'waves-effect waves-light btn-small mb-2 grey lighten-1',
+
+                                    ])
+                                    wire:click="activeHideCategories"
+                                >
+                                    <i class="material-icons left">expand_more</i>Показать все
+                                </div>
+                                <div class="w-100"></div>
+                            @else
+                                @foreach($hideCategories as $category)
+                                    <a
+                                        @class([
+                                            'waves-effect waves-light btn mb-2',
+                                            'grey lighten-1' => $category->id !== $categoryId
+                                        ])
+                                        wire:click.prevent="selectCategory({{ $category->id }})"
+                                    >
+                                        {{ $category->name }}
+                                    </a>
+                                @endforeach
+                            @endif
+                        @endif
                     </div>
                 </div>
 

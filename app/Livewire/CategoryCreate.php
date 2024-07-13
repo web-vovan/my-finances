@@ -10,6 +10,7 @@ class CategoryCreate extends Component
 {
     #[Validate('required')]
     public $name;
+    public $isHide;
 
     public function save()
     {
@@ -17,6 +18,7 @@ class CategoryCreate extends Component
 
         $category = new Category();
         $category->name = $this->name;
+        $category->is_hide = $this->isHide;
         $category->save();
 
         return redirect()->to('/categories');

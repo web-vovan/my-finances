@@ -14,6 +14,7 @@ class CostCreate extends Component
     public $categoryId = null;
     public $date;
     public $comment = null;
+    public $showHideCategories = false;
 
     public function mount()
     {
@@ -40,11 +41,23 @@ class CostCreate extends Component
         $this->categoryId = $categoryId;
     }
 
+    public function activeHideCategories(): bool
+    {
+        return $this->showHideCategories = true;
+    }
+
     public function render(): View
     {
         return view('livewire.cost-create')
             ->with([
-                'categories' => Category::all(),
+                'categories' => Category::query()
+                    ->where('is_hide', false)
+                    ->orderBy('id')
+                    ->get(),
+                'hideCategories' => Category::query()
+                    ->where('is_hide', true)
+                    ->orderBy('id')
+                    ->get(),
             ]);
     }
 }

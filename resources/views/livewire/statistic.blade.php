@@ -25,7 +25,6 @@
                         <span>мое</span>
                     @endif
                 </label>
-
             </div>
         </div>
     </div>

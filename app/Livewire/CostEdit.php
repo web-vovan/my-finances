@@ -15,6 +15,7 @@ class CostEdit extends Component
     public $categoryId = null;
     public $date;
     public $comment = null;
+    public $showHideCategories = true;
 
     public function mount($id)
     {
@@ -49,6 +50,7 @@ class CostEdit extends Component
         return view('livewire.cost-create')
             ->with([
                 'categories' => Category::all(),
+                'hideCategories' => []
             ]);
     }
 }

@@ -12,11 +12,13 @@ class CategoryEdit extends Component
 
     #[Validate('required')]
     public $name;
+    public $isHide;
 
     public function mount($id)
     {
         $this->category = Category::findOrFail($id);
         $this->name = $this->category->name;
+        $this->isHide = $this->category->is_hide;
     }
 
     public function save()
@@ -24,6 +26,7 @@ class CategoryEdit extends Component
         $this->validate();
 
         $this->category->name = $this->name;
+        $this->category->is_hide = $this->isHide;
         $this->category->save();
 
         return redirect()->to('/categories');

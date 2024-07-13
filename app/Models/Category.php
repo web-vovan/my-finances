@@ -13,7 +13,12 @@ class Category extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'name'
+        'name',
+        'is_hide'
+    ];
+
+    protected $casts = [
+        'is_hide' => 'boolean'
     ];
 
     public function costs(): HasMany
