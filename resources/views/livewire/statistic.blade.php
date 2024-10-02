@@ -14,18 +14,19 @@
                 @endforeach
             </select>
         </div>
-        <div class="col s5">
-            <div class="switch">
-                <label>
-                    <input type="checkbox" wire:model="isFamily" wire:change="changeOption">
-                    <span class="lever"></span>
-                    @if ($isFamily)
-                        <span>семья</span>
-                    @else
-                        <span>мое</span>
-                    @endif
-                </label>
-            </div>
+        <div class="col s5 flex">
+            <i
+                @class([
+                    'material-icons',
+                    'prefix',
+                    'small',
+                    'mr-2',
+                    'teal-text' => $isFamily,
+                    'grey-text' => !$isFamily,
+                ])
+                wire:click="changeFamily"
+                wire:model="isFamily"
+            >people</i>
         </div>
     </div>
 

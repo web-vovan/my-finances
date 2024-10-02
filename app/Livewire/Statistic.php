@@ -106,6 +106,13 @@ class Statistic extends Component
         $this->changeOption();
     }
 
+    public function changeFamily()
+    {
+        $this->isFamily = !$this->isFamily;
+
+        $this->changeOption();
+    }
+
     /**
      * Смена опции
      */
