@@ -15,6 +15,7 @@ class Statistic extends Component
     public Collection $priceData;
 
     public $isFamily = false;
+    public $isPeriod = false;
 
     public function mount()
     {
@@ -117,18 +118,20 @@ class Statistic extends Component
         $this->changeOption();
     }
 
+    public function changePeriod()
+    {
+        $this->isPeriod = !$this->isPeriod;
+
+        $this->changeOption();
+    }
+
+
     /**
      * Смена опции
      */
     public function changeOption()
     {
         $this->priceData = $this->getPriceData();
-
-        $this->dispatch(
-            'chartUpdate',
-            labels: json_encode($this->priceData->pluck('name')),
-            data: json_encode($this->priceData->pluck('totalPrice'))
-        );
     }
 
     public function render()

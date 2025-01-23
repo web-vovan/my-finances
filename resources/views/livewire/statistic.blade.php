@@ -1,27 +1,40 @@
 <div>
     <h4 class="mt-3 mb-3">Статистика</h2>
-    <div class="row mt-4 flex align-items-center">
-        <div class="col s3">
-            <select wire:model="year" wire:change="changeYear" class="browser-default">
-                @foreach ($dateData as $key => $item)
-                    <option value="{{ $key }}">{{ $key }}</option>
-                @endforeach
-            </select>
+    <div class="flex align-items-center justify-content-between">
+        <div class="flex">
+            <div class="mr-4">
+                <select wire:model="year" wire:change="changeYear" class="browser-default">
+                    @foreach ($dateData as $key => $item)
+                        <option value="{{ $key }}">{{ $key }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div>
+                <select wire:model="month" wire:change="changeOption" wire:key="{{ $year }}" class="browser-default">
+                    @foreach ($dateData[$year] as $key => $item)
+                        <option value="{{ $item['month'] }}">{{ $item['monthName'] }}</option>
+                    @endforeach
+                </select>
+            </div>
         </div>
-        <div class="col s4">
-            <select wire:model="month" wire:change="changeOption" wire:key="{{ $year }}" class="browser-default">
-                @foreach ($dateData[$year] as $key => $item)
-                    <option value="{{ $item['month'] }}">{{ $item['monthName'] }}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="col s5 flex">
+        <div class="flex">
             <i
                 @class([
                     'material-icons',
                     'prefix',
                     'small',
-                    'mr-2',
+                    'mr-4',
+                    'teal-text' => $isPeriod,
+                    'grey-text' => !$isPeriod,
+                ])
+                wire:click="changePeriod"
+                wire:model="isPeriod"
+            >today</i>
+            <i
+                @class([
+                    'material-icons',
+                    'prefix',
+                    'small',
                     'teal-text' => $isFamily,
                     'grey-text' => !$isFamily,
                 ])
