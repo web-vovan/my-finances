@@ -1,4 +1,5 @@
 <div>
+    <h4 class="mt-3 mb-3">Статистика</h2>
     <div class="row mt-4 flex align-items-center">
         <div class="col s3">
             <select wire:model="year" wire:change="changeYear" class="browser-default">
@@ -30,8 +31,6 @@
         </div>
     </div>
 
-    <canvas id="myChart" class="mb-4"></canvas>
-
     <table class="striped">
         <thead>
             <tr class="font-weight-bold">
@@ -50,27 +49,3 @@
         @endforeach
     </table>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-@script
-    <script>
-        const ctx = document.getElementById('myChart');
-
-        const chart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: JSON.parse('{!! $labels !!}'),
-                datasets: [{
-                    data: JSON.parse('{!! $values !!}'),
-                    borderWidth: 1
-                }]
-            },
-        });
-
-        $wire.on('chartUpdate', (event) => {
-            chart.data.labels = JSON.parse(event.labels)
-            chart.data.datasets[0].data = JSON.parse(event.data)
-            chart.update()
-        });
-    </script>
-@endscript

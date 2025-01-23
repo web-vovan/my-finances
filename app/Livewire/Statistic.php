@@ -23,6 +23,10 @@ class Statistic extends Component
 
         $this->dateData = $this->getDateData();
         $this->priceData = $this->getPriceData();
+
+        if (!isset($this->dateData[$this->year])) {
+            $this->dateData[$this->year] = [];
+        }
     }
 
     /**
