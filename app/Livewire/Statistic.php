@@ -2,14 +2,23 @@
 
 namespace App\Livewire;
 
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class Statistic extends Component
 {
-    public $month;
-    public $year;
+    public int $month;
+    public int $year;
+
+    public int $totalPrice;
+
+    public ?int $startYearPeriod;
+    public ?int $startMonthPeriod;
+    
+    public ?int $endYearPeriod;
+    public ?int $endMonthPeriod;
 
     public array $dateData;
     public Collection $priceData;
@@ -28,6 +37,17 @@ class Statistic extends Component
         if (!isset($this->dateData[$this->year])) {
             $this->dateData[$this->year] = [];
         }
+
+        $this->startYearPeriod = array_key_first($this->dateData);
+        $this->endYearPeriod = array_key_last($this->dateData);
+
+        $this->startMonthPeriod = !is_null($this->startYearPeriod)
+            ? $this->dateData[$this->startYearPeriod][0]['month']
+            : null;
+
+        $this->endMonthPeriod = !is_null($this->endYearPeriod)
+            ? $this->dateData[$this->endYearPeriod][array_key_last($this->dateData[$this->endYearPeriod])]['month']
+            : null;
     }
 
     /**
@@ -77,15 +97,24 @@ class Statistic extends Component
                 ->toArray()
             : [auth()->user()->id];
 
-        $data = DB::table('costs as t1')
+        $builder = DB::table('costs as t1')
             ->select(DB::raw('SUM(t1.price) as totalPrice'), 't2.name')
             ->leftJoin('categories as t2', 't1.category_id', '=', 't2.id')
-            ->whereMonth('date', '=', $this->month)
-            ->whereYear('date', '=', $this->year)
             ->whereIn('user_id', $users)
             ->groupBy('t2.name')
-            ->orderByDesc('totalPrice')
-            ->get();
+            ->orderByDesc('totalPrice');
+
+        if ($this->isPeriod) {
+            $builder
+                ->where('date', '>=', Carbon::create($this->startYearPeriod, $this->startMonthPeriod))
+                ->where('date', '<=', Carbon::create($this->endYearPeriod, $this->endMonthPeriod)->endOfMonth());
+        } else {
+            $builder
+                ->whereMonth('date', $this->month)
+                ->whereYear('date', $this->year);
+        }
+
+        $data = $builder->get();
 
         $percentRatio = collect(
             percentRatio(
@@ -107,6 +136,19 @@ class Statistic extends Component
     public function changeYear()
     {
         $this->month = $this->dateData[$this->year][0]['month'];
+
+        $this->changeOption();
+    }
+
+    public function changePeriodYear()
+    {
+        if (!isset($this->dateData[$this->startYearPeriod][$this->startMonthPeriod])) {
+            $this->startMonthPeriod = $this->dateData[$this->startYearPeriod][0]['month'];
+        }
+
+        if (!isset($this->dateData[$this->endYearPeriod][$this->endMonthPeriod])) {
+            $this->startMonthPeriod = $this->dateData[$this->endYearPeriod][array_key_last($this->dateData[$this->endYearPeriod])]['month'];
+        }
 
         $this->changeOption();
     }
@@ -142,7 +184,10 @@ class Statistic extends Component
                 'totalPrice' => $this->priceData->sum('totalPrice'),
                 'labels' => json_encode($this->priceData->pluck('name')),
                 'values' => json_encode($this->priceData->pluck('totalPrice')),
-                'monthName' => getMonthName($this->month)
+                'monthName' => getMonthName($this->month),
+                'startMonthPeriodName' => getMonthName($this->startMonthPeriod),
+                'endMonthPeriodName' => getMonthName($this->endMonthPeriod),
+                'notValidPeriod' => Carbon::create($this->startYearPeriod, $this->startMonthPeriod) > Carbon::create($this->endYearPeriod, $this->endMonthPeriod)
             ]);
     }
 }
