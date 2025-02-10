@@ -8,9 +8,8 @@ use RuntimeException;
 class VovanDB {
     public static function query(string $sql): string
     {
-        $result = Process::path(base_path())
-            ->input($sql)
-            ->run('./vovanDB')
+        $result = Process::path(base_path('database'))
+            ->run('./vovanDB ' .  escapeshellarg($sql))
             ->throw();
 
         $result = json_decode($result->output(), true);
