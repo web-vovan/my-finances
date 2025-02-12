@@ -53,8 +53,8 @@ return new class extends Migration
         `password` text NOT NULL,
         `family_id` int null,
         `remember_token` text NULL,
-        `created_at` datetime,
-        `updated_at` datetime);
+        `created_at` datetime NULL,
+        `updated_at` datetime NULL);
         ',
     ];
 

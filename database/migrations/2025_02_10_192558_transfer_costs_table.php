@@ -34,8 +34,6 @@ return new class extends Migration
             }
         }
 
-        // dd($sql);
-
         VovanDB::query($sql);
     }
 
@@ -44,6 +42,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        VovanDB::query('DELETE FROM costs');
     }
 };

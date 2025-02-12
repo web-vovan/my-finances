@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        
+        VovanDB::query('DELETE FROM categories');
     }
 };
