@@ -16,6 +16,10 @@ return new class extends Migration
         $families = Family::all();
         $countFamilies = count($families);
 
+        if ($countFamilies === 0) {
+            return;
+        }
+        
         $sql = 'INSERT INTO families (id, name) VALUES ';
 
         foreach ($families as $key => $family) {
