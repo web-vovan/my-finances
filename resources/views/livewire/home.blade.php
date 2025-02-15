@@ -10,10 +10,12 @@
                 <div class="left-align">
                     <div>Расходы за {{ $month }}:</div>
                     <div class="flow-text font-weight-bold">{{ priceFormat($monthTotal) }}</div>
+                    <div class="grey-text">{{ priceFormat($monthTotal2) }}</div>
                 </div>
                 <div class="right-align">
                     <div>Расходы за сегодня:</div>
                     <div class="flow-text font-weight-bold">{{ priceFormat($todayTotal) }}</div>
+                    <div class="grey-text">{{ priceFormat($todayTotal2) }}</div>
                 </div>
             </div>
             <div class="wrap-cost">

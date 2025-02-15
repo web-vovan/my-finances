@@ -20,4 +20,9 @@ class VovanDB {
 
         return $result['data'];
     }
+
+    public static function select(string $sql): array
+    {
+        return json_decode(self::query($sql), true);
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Adapters\VovanDB;
 use App\Models\Category;
 use App\Models\Cost;
 use Carbon\Carbon;
@@ -32,6 +33,19 @@ class CostCreate extends Component
                 ->toDateString(),
             'comment' => $this->comment
         ]);
+
+        VovanDB::query("
+            INSERT INTO costs
+            (price, comment, user_id, category_id, date)
+            VALUES (" 
+            . $this->price . ","
+            . "'" . $this->comment . "'," 
+            . auth()->user()->id . ","
+            . $this->categoryId . ","
+            . "'" . Carbon::create($this->date ?? Carbon::now())
+                ->toDateString() . "'"
+            . ")"
+        );
 
         return redirect()->to('/');
     }
