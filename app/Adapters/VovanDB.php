@@ -8,7 +8,7 @@ use RuntimeException;
 class VovanDB {
     public static function query(string $sql): string
     {
-        $result = Process::path(base_path('database'))
+        $result = Process::path(config('database.connections.vovanDB.driver_path'))
             ->run('./vovanDB ' .  escapeshellarg($sql))
             ->throw();
 

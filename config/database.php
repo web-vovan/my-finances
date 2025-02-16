@@ -93,6 +93,9 @@ return [
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
 
+        'vovanDB' => [
+            'driver_path' => base_path(env('VOVAN_DB_PATH'))
+        ],
     ],
 
     /*
