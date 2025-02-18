@@ -25,12 +25,15 @@
                             <tr>
                                 <td>
                                     {{ $cost->date->isoFormat('D MMM') }}
+                                    <div class="grey-text">{{ $costs2[$key]['date'] }}</div>
                                 </td>
                                 <td>
                                     {{ $cost->priceFormat }}
+                                    <div class="grey-text">{{ $costs2[$key]['price'] }}</div>
                                 </td>
                                 <td>
                                     {{ $cost->category?->name }}
+                                    <div class="grey-text">{{ $costs2[$key]['category'] }}</div>
                                 </td>
                                 <td>
                                     <a href="#" class="secondary-content dropdown-trigger" data-target="dropdown{{ $key }}">
@@ -44,7 +47,7 @@
                                         </li>
                                         <li class="divider" tabindex="-1"></li>
                                         <li>
-                                            <a href="#" class="delete-btn" data-cost-id="{{ $cost->id }}">
+                                            <a href="#" class="delete-btn" data-cost-id="{{ $cost->id }}" data-cost2-id="{{ $costs2[$key]['id'] }}">
                                                 <i class="material-icons mr-0">delete</i>
                                             </a>
                                         </li>
@@ -84,12 +87,14 @@
             btn.addEventListener('click', (event) => {
                 instance.open()
                 confirmButton.dataset.costId = event.currentTarget.dataset.costId
+                confirmButton.dataset.cost2Id = event.currentTarget.dataset.cost2Id
             })
         })
 
         confirmButton.addEventListener('click', (event) => {
             Livewire.dispatch('delete-cost', {
-                'id': event.currentTarget.dataset.costId
+                'id': event.currentTarget.dataset.costId,
+                'id2': event.currentTarget.dataset.cost2Id
             });
 
             instance.close()

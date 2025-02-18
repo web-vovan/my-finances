@@ -72,7 +72,7 @@ return [
             'level' => env('LOG_LEVEL', 'debug'),
             'days' => 14,
             'replace_placeholders' => true,
-            'permission' => 0664
+            'permission' => 0775
         ],
 
         'slack' => [

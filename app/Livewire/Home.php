@@ -11,9 +11,14 @@ use Livewire\Component;
 class Home extends Component
 {
     #[On('delete-cost')]
-    public function deleteCost(int $id)
+    public function deleteCost(int $id, int $id2)
     {
         Cost::destroy($id);
+
+        VovanDB::query("
+            DELETE FROM costs
+            WHERE id = " . $id2
+        );
 
         return redirect(request()->header('Referer'));
     }
@@ -68,11 +73,33 @@ class Home extends Component
             SELECT *
             FROM costs
             WHERE user_id = " . auth()->user()->id
+            . "ORDER BY date desc"
         );
+
+        $categoryData = VovanDB::select("
+            SELECT id, name
+            FROM categories
+        ");
+
+        $categories = array_reduce($categoryData, function ($acc, $item) {
+            $acc[$item['id']] = $item['name'];
+            return $acc;
+        }, []);
+
+        $costs2 = array_slice($costsData, 0, 30);
+
+        $costs2 = array_map(function ($item) use ($categories) {
+            $item['date'] = Carbon::create($item['date'])->isoFormat('D MMM');
+            $item['price'] = priceFormat($item['price']);
+            $item['category'] = $categories[$item['category_id']];
+
+            return $item;
+        }, $costs2);
 
         return view('livewire.home')
             ->with([
                 'costs' => $costs,
+                'costs2' => $costs2,
                 'month' => Carbon::now()->isoFormat('MMMM'),
                 'monthTotal' => $monthTotal,
                 'monthTotal2' => $monthTotal2,
