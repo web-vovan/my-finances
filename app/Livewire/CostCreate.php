@@ -8,6 +8,7 @@ use App\Models\Cost;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
+use Ramsey\Uuid\Uuid;
 
 class CostCreate extends Component
 {
@@ -25,7 +26,10 @@ class CostCreate extends Component
 
     public function save()
     {
+        $uuid = Uuid::uuid4();
+
         Cost::create([
+            'uuid' =>  $uuid,
             'price' => $this->price,
             'category_id' => $this->categoryId,
             'user_id' => auth()->user()->id,
@@ -36,8 +40,9 @@ class CostCreate extends Component
 
         VovanDB::query("
             INSERT INTO costs
-            (price, comment, user_id, category_id, date)
+            (uuid, price, comment, user_id, category_id, date)
             VALUES (" 
+            . "'" . $uuid . "'," 
             . $this->price . ","
             . "'" . $this->comment . "'," 
             . auth()->user()->id . ","

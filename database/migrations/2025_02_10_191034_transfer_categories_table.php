@@ -16,10 +16,10 @@ return new class extends Migration
         $categories = Category::all();
         $countCategories = count($categories);
 
-        $sql = 'INSERT INTO categories (id, name, is_hide) VALUES ';
+        $sql = 'INSERT INTO categories (id, uuid, name, is_hide) VALUES ';
 
         foreach ($categories as $key => $category) {
-            $sql .= '(' . $category->id . ",'" . $category->name . "'," . ($category->is_hide ? 'true' : 'false') . ')';
+            $sql .= '(' . $category->id . ",'" . $category->uuid . "'," . ",'" . $category->name . "'," . ($category->is_hide ? 'true' : 'false') . ')';
 
             if ($key < $countCategories - 1) {
                 $sql .= ',';

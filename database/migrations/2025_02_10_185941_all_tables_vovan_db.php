@@ -13,8 +13,9 @@ return new class extends Migration
 
         CREATE TABLE `costs` (
         `id` int NOT NULL AUTO_INCREMENT,
+        `uuid` text NOT NULL,
         `price` int NOT NULL,
-        `comment` text ,
+        `comment` text,
         `user_id` int NOT NULL,
         `category_id` int,
         `date` date NOT NULL)
@@ -24,6 +25,7 @@ return new class extends Migration
 
         CREATE TABLE `categories` (
         `id` int NOT NULL AUTO_INCREMENT,
+        `uuid` text NOT NULL,
         `name` text NOT NULL,
         `is_hide` bool NOT NULL,);',
         '

@@ -13,6 +13,7 @@ class Cost extends Model
     public $timestamps = false;
 
     protected $fillable = [
+        'uuid',
         'price',
         'comment',
         'category_id',

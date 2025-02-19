@@ -16,12 +16,13 @@ return new class extends Migration
         $costs = Cost::all();
         $countCategories = count($costs);
 
-        $sql = 'INSERT INTO costs (id, price, comment, user_id, category_id, date) VALUES ';
+        $sql = 'INSERT INTO costs (id, uuid, price, comment, user_id, category_id, date) VALUES ';
 
         foreach ($costs as $key => $cost) {
             $sql .= sprintf(
-                "(%d, %d, '%s', %d, %d, '%s')",
+                "(%d, '%s', %d, '%s', %d, %d, '%s')",
                 $cost->id,
+                $cost->uuid,
                 $cost->price,
                 $cost->comment,
                 $cost->user_id,

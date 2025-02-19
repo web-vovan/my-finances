@@ -73,9 +73,16 @@ class Home extends Component
             SELECT *
             FROM costs
             WHERE user_id = " . auth()->user()->id
-            . "ORDER BY date desc"
         );
 
+        usort($costsData, function ($a, $b) {
+            if ($a['date'] == $b['date']) {
+                return ($a['id'] > $b['id']) ? -1 : 1;
+            }
+
+            return ($a['date'] > $b['date']) ? -1 : 1;
+        });
+        
         $categoryData = VovanDB::select("
             SELECT id, name
             FROM categories
