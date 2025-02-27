@@ -14,12 +14,18 @@ class Category extends Model
 
     protected $fillable = [
         'name',
+        'uuid',
         'is_hide'
     ];
 
     protected $casts = [
         'is_hide' => 'boolean'
     ];
+
+    public function getRouteKeyName()
+    {
+        return 'uuid';
+    }
 
     public function costs(): HasMany
     {

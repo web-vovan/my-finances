@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Adapters\VovanDB;
 use App\Models\Category;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -18,9 +19,16 @@ class CategoryList extends Component
 
     public function render()
     {
+        $categories = Category::all();
+        $categories2 = VovanDB::select("
+            SELECT *
+            FROM categories
+        ");
+
         return view('livewire.category-list')
             ->with([
-                'categories' => Category::all()
+                'categories' => $categories,
+                'categories2' => $categories2
             ]);
     }
 }

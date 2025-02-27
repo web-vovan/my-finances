@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Adapters\VovanDB;
 use Ramsey\Uuid\Uuid;
 use Livewire\Component;
 use App\Models\Category;
@@ -24,6 +25,13 @@ class CategoryCreate extends Component
         $category->is_hide = $this->isHide;
         $category->uuid = $uuid;
         $category->save();
+
+        VovanDB::query("
+            INSERT INTO categories (uuid, name, is_hide)
+            VALUES (
+                '" . $uuid . "', '" . $this->name . "'," . ($this->isHide ? 'true' : 'false') . "
+            )
+        ");
 
         return redirect()->to('/categories');
     }

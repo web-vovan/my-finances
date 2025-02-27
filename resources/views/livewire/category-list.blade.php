@@ -17,13 +17,34 @@
 
                 <ul id="dropdown{{ $key }}"  class="dropdown-content edit-list">
                     <li class="center-align">
-                        <a href="/categories/{{ $category->id }}/edit" >
+                        <a href="/categories/{{ $category->uuid }}/edit" >
                             <i class="material-icons mr-0">edit</i>
                         </a>
                     </li>
                     <li class="divider" tabindex="-1"></li>
                     <li>
-                        <a href="#" class="delete-btn" data-category-id="{{ $category->id }}">
+                        <a href="#" class="delete-btn" data-category-uuid="{{ $category->uuid }}">
+                            <i class="material-icons mr-0">delete</i>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="collection-item grey-text">
+                <div>{{ $categories2[$key]['name'] }}
+                    <a href="#" class="secondary-content dropdown-trigger" data-target="dropdown{{ $key }}">
+                        <i class="material-icons">more_vert</i>
+                    </a>
+                </div>
+
+                <ul id="dropdown{{ $key }}"  class="dropdown-content edit-list">
+                    <li class="center-align">
+                        <a href="/categories/{{ $categories2[$key]['uuid'] }}/edit" >
+                            <i class="material-icons mr-0">edit</i>
+                        </a>
+                    </li>
+                    <li class="divider" tabindex="-1"></li>
+                    <li>
+                        <a href="#" class="delete-btn" data-category-uuid="{{ $categories2[$key]['uuid'] }}">
                             <i class="material-icons mr-0">delete</i>
                         </a>
                     </li>
