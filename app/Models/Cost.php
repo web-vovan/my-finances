@@ -25,6 +25,11 @@ class Cost extends Model
         'date' => 'date'
     ];
 
+    public function getRouteKeyName()
+    {
+        return 'uuid';
+    }
+
     public function getPriceFormatAttribute(): string
     {
         return priceFormat($this->price);

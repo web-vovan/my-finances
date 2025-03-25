@@ -24,7 +24,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/categories/create', CategoryCreate::class);
 
     Route::get('/costs/create', CostCreate::class);
-    Route::get('/costs/{id}/edit', CostEdit::class);
+    Route::get('/costs/{uuid}/edit', CostEdit::class);
 
     Route::get('/statistic', Statistic::class);
 

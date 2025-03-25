@@ -41,13 +41,13 @@
                                     </a>
                                     <ul id="dropdown{{ $key }}"  class="dropdown-content edit-list">
                                         <li>
-                                            <a href="/costs/{{ $cost->id }}/edit">
+                                            <a href="/costs/{{ $cost->uuid }}/edit">
                                                 <i class="material-icons mr-0">edit</i>
                                             </a>
                                         </li>
                                         <li class="divider" tabindex="-1"></li>
                                         <li>
-                                            <a href="#" class="delete-btn" data-cost-id="{{ $cost->id }}" data-cost2-id="{{ $costs2[$key]['id'] }}">
+                                            <a href="#" class="delete-btn" data-cost-uuid="{{ $cost->uuid }}" data-cost2-uuid="{{ $costs2[$key]['uuid'] }}">
                                                 <i class="material-icons mr-0">delete</i>
                                             </a>
                                         </li>
@@ -93,8 +93,8 @@
 
         confirmButton.addEventListener('click', (event) => {
             Livewire.dispatch('delete-cost', {
-                'id': event.currentTarget.dataset.costId,
-                'id2': event.currentTarget.dataset.cost2Id
+                'uuid': event.currentTarget.dataset.costUuid,
+                'uuid2': event.currentTarget.dataset.cost2Uuid
             });
 
             instance.close()

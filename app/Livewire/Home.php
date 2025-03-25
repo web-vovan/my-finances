@@ -72,7 +72,8 @@ class Home extends Component
         $costsData = VovanDB::select("
             SELECT *
             FROM costs
-            WHERE user_id = " . auth()->user()->id
+            WHERE user_id = " . auth()->user()->id . "
+            ORDER BY date DESC"
         );
 
         usort($costsData, function ($a, $b) {
@@ -80,7 +81,7 @@ class Home extends Component
                 return ($a['id'] > $b['id']) ? -1 : 1;
             }
 
-            return ($a['date'] > $b['date']) ? -1 : 1;
+            return 0;      
         });
         
         $categoryData = VovanDB::select("
