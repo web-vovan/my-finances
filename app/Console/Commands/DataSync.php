@@ -150,28 +150,46 @@ class DataSync extends Command
     private function transferCostsData(): void
     {
         $costs = Cost::all();
-        $countCategories = count($costs);
+        $countCosts = count($costs);
 
-        $sql = 'INSERT INTO costs (id, uuid, price, comment, user_id, category_id, date) VALUES ';
+        $i = 0;
 
-        foreach ($costs as $key => $cost) {
-            $sql .= sprintf(
-                "(%d, '%s', %d, '%s', %d, %d, '%s')",
-                $cost->id,
-                $cost->uuid,
-                $cost->price,
-                $cost->comment,
-                $cost->user_id,
-                $cost->category_id,
-                $cost->date->format('Y-m-d')
-            );
-
-            if ($key < $countCategories - 1) {
-                $sql .= ',';
+        while (true) {
+            if ($i >= $countCosts) {
+                break;
             }
-        }
 
-        VovanDB::query($sql);
+            $sql = 'INSERT INTO costs (id, uuid, price, comment, user_id, category_id, date) VALUES ';
+
+            foreach ($costs->slice($i) as $cost) {
+                $i++;
+
+                $sql .= sprintf(
+                    "(%d, '%s', %d, '%s', %d, %d, '%s')",
+                    $cost->id,
+                    $cost->uuid,
+                    $cost->price,
+                    $cost->comment,
+                    $cost->user_id,
+                    $cost->category_id,
+                    $cost->date->format('Y-m-d')
+                );
+
+                if ($i > $countCosts) {
+                    break;
+                }
+
+                if ($i % 100 == 0) {
+                    break;
+                }
+
+                if ($i < $countCosts - 1) {
+                    $sql .= ',';
+                }
+            }
+
+            VovanDB::query($sql);
+        }
     }
 
     /**
