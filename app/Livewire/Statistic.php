@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Adapters\VovanDB;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -21,6 +22,8 @@ class Statistic extends Component
     public ?int $endMonthPeriod;
 
     public array $dateData;
+    public array $dateData2;
+
     public Collection $priceData;
 
     public $isFamily = false;
@@ -31,7 +34,9 @@ class Statistic extends Component
         $this->month = date('n');
         $this->year = date('Y');
 
-        $this->dateData = $this->getDateData();
+        // $this->dateData = $this->getDateData();
+        $this->dateData = $this->getDateData2();
+
         $this->priceData = $this->getPriceData();
 
         if (!isset($this->dateData[$this->year])) {
@@ -79,6 +84,39 @@ class Statistic extends Component
 
             return $acc;
         }, []);
+    }
+
+    /**
+     * Данные по годам и месяцам
+     *
+     * @return array
+     */
+    public function getDateData2(): array
+    {
+        $rawData = VovanDB::select('SELECT date FROM costs ORDER BY date ASC');
+
+        // Оставляем уникальные даты
+        $rawData = array_reduce($rawData, function($acc, $item) {
+            $year = (int) substr($item['date'], 0, 4);
+            $month = (int) substr($item['date'], 5, 2);
+
+            $acc[$year][$month] = $month;
+
+            return $acc;
+        }, []);
+
+        foreach ($rawData as $key => $item) {
+            $months = array_map(function($i) {
+                return [
+                    "month" => $i,
+                    "monthName" => getMonthName($i)
+                ];
+            }, $item);
+
+            $this->dateData2[$key] = array_values($months);
+        }
+ 
+        return $this->dateData2;
     }
 
     /**
