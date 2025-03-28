@@ -25,6 +25,7 @@ class Statistic extends Component
     public array $dateData2;
 
     public Collection $priceData;
+    public array $priceData2;
 
     public $isFamily = false;
     public $isPeriod = false;
@@ -38,6 +39,7 @@ class Statistic extends Component
         $this->dateData = $this->getDateData2();
 
         $this->priceData = $this->getPriceData();
+        $this->priceData2 = $this->getPriceData2();
 
         if (!isset($this->dateData[$this->year])) {
             $this->dateData[$this->year] = [];
@@ -153,7 +155,7 @@ class Statistic extends Component
         }
 
         $data = $builder->get();
-
+        
         $percentRatio = collect(
             percentRatio(
                 $data
@@ -169,6 +171,84 @@ class Statistic extends Component
                 ->where('item', $item->totalPrice)
                 ->value('percent');
         });
+    }
+
+    /**
+     * Данные по расходам
+     *
+     * @return Collection
+     */
+    public function getPriceData2(): array
+    {
+        // Категории
+        $categories = array_reduce(VovanDB::select('SELECT * FROM categories'), function ($acc, $item) {
+            $acc[$item['id']] = $item['name'];
+            return $acc;
+        }, []);
+
+        $sql = "SELECT * FROM costs";
+
+        if ($this->isFamily) {
+            $sql .= ' WHERE user_id = ' . auth()->user()->id;
+        }
+
+        $costs = VovanDB::select($sql);
+
+        if ($this->isPeriod) {
+            $costs = array_filter($costs, function($item) {
+                if (
+                    $item['date'] >= Carbon::create($this->startYearPeriod, $this->startMonthPeriod)
+                    && $item['date'] <= Carbon::create($this->endYearPeriod, $this->endMonthPeriod)->endOfMonth()
+                ) {
+                    return true;
+                }
+
+                return false;
+            });
+        } else {
+            $costs = array_filter($costs, function($item) {
+                $year = (int) substr($item['date'], 0, 4);
+                $month = (int) substr($item['date'], 5, 2);
+                if ($year === $this->year && $month === $this->month) {
+                    return true;
+                }
+
+                return false;
+            });
+        }
+
+        // Группируем по категориям
+        $data = array_reduce($costs, function($acc, $item) use($categories) {
+            if (!isset($acc[$item['category_id']])) {
+                $acc[$item['category_id']]['totalPrice'] = 0;
+                $acc[$item['category_id']]['category'] = $categories[$item['category_id']];
+            }
+
+            $acc[$item['category_id']]['totalPrice'] += $item['price'];
+
+            return $acc;
+        }, []);
+
+        // Сортируем
+        usort($data, function ($a, $b) {
+            return $b['totalPrice'] - $a['totalPrice'];
+        });
+
+        $percentRatio = collect(
+            percentRatio(array_map(fn($item) => $item['totalPrice'], $data))
+        );
+
+        $this->totalPrice = array_reduce($data, function($acc, $item) {
+            return $acc + $item['totalPrice'];
+        }, 0);
+
+        return array_map(function ($item) use ($percentRatio) {
+           $item['percent'] =  $percentRatio
+                ->where('item', $item['totalPrice'])
+                ->value('percent');
+
+            return $item;
+        }, $data);
     }
 
     public function changeYear()
