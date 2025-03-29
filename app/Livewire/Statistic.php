@@ -14,6 +14,7 @@ class Statistic extends Component
     public int $year;
 
     public int $totalPrice;
+    public int $totalPrice2;
 
     public ?int $startYearPeriod;
     public ?int $startMonthPeriod;
@@ -155,7 +156,7 @@ class Statistic extends Component
         }
 
         $data = $builder->get();
-        
+
         $percentRatio = collect(
             percentRatio(
                 $data
@@ -188,7 +189,7 @@ class Statistic extends Component
 
         $sql = "SELECT * FROM costs";
 
-        if ($this->isFamily) {
+        if (!$this->isFamily) {
             $sql .= ' WHERE user_id = ' . auth()->user()->id;
         }
 
@@ -238,7 +239,7 @@ class Statistic extends Component
             percentRatio(array_map(fn($item) => $item['totalPrice'], $data))
         );
 
-        $this->totalPrice = array_reduce($data, function($acc, $item) {
+        $this->totalPrice2 = array_reduce($data, function($acc, $item) {
             return $acc + $item['totalPrice'];
         }, 0);
 
@@ -292,16 +293,13 @@ class Statistic extends Component
     public function changeOption()
     {
         $this->priceData = $this->getPriceData();
+        $this->priceData2 = $this->getPriceData2();
     }
 
     public function render()
     {
         return view('livewire.statistic')
             ->with([
-                'priceData' => $this->priceData,
-                'totalPrice' => $this->priceData->sum('totalPrice'),
-                'labels' => json_encode($this->priceData->pluck('name')),
-                'values' => json_encode($this->priceData->pluck('totalPrice')),
                 'monthName' => getMonthName($this->month),
                 'startMonthPeriodName' => getMonthName($this->startMonthPeriod),
                 'endMonthPeriodName' => getMonthName($this->endMonthPeriod),

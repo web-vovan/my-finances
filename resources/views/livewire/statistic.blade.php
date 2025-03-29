@@ -94,16 +94,23 @@
                 @else
                     <td>Расходы за {{ $monthName }} {{ $year }}:</td>
                 @endif
-                <td>{{ priceFormat($totalPrice) }}</td>
+                <td>{{ priceFormat($totalPrice) }}</br>
+                    <div class="grey-text">{{ priceFormat($totalPrice2) }}</div></td>
                 <td>100%</td>
             </tr>
         </thead>
 
-        @foreach($priceData as $item)
+        @foreach($priceData as $key => $item)
             <tr>
-                <td>{{ $item->name }}</td>
-                <td>{{ priceFormat((int) $item->totalPrice) }}</td>
-                <td>{{ $item->percent }}%</td>
+                <td>{{ $item->name }}
+                    <div class="grey-text">{{ $this->priceData2[$key]['category'] }}</div>
+                </td>
+                <td>{{ priceFormat((int) $item->totalPrice) }}
+                    <div class="grey-text">{{ priceFormat($this->priceData2[$key]['totalPrice']) }}</div>
+                </td>
+                <td>{{ $item->percent }}%
+                    <div class="grey-text">{{ $this->priceData2[$key]['percent'] }}%</div>
+                </td>
             </tr>
         @endforeach
     </table>
