@@ -11,13 +11,13 @@ use Livewire\Component;
 class Home extends Component
 {
     #[On('delete-cost')]
-    public function deleteCost(int $id, int $id2)
+    public function deleteCost(string $uuid, string $uuid2)
     {
-        Cost::destroy($id);
+        Cost::where('uuid', $uuid)->delete();
 
         VovanDB::query("
             DELETE FROM costs
-            WHERE id = " . $id2
+            WHERE uuid = '" . $uuid2 . "'"
         );
 
         return redirect(request()->header('Referer'));

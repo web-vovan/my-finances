@@ -86,8 +86,8 @@
         deleteButtons.forEach((btn) => {
             btn.addEventListener('click', (event) => {
                 instance.open()
-                confirmButton.dataset.costId = event.currentTarget.dataset.costId
-                confirmButton.dataset.cost2Id = event.currentTarget.dataset.cost2Id
+                confirmButton.dataset.costUuid = event.currentTarget.dataset.costUuid
+                confirmButton.dataset.cost2Uuid = event.currentTarget.dataset.cost2Uuid
             })
         })
 
