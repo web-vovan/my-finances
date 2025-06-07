@@ -21,8 +21,21 @@ class VovanDB {
         return $result['data'];
     }
 
-    public static function select(string $sql): array
+    public static function select(string $sql): ?array
     {
-        return json_decode(self::query($sql), true);
+        $rawData = self::query($sql);
+
+        return json_decode(str_replace('NULL', 'null', $rawData), true);
+    }
+
+    public static function selectFirst(string $sql): ?array
+    {
+        $data = self::select($sql);
+
+        if (is_null($data)) {
+            return null;
+        }
+
+        return count($data) > 0 ? $data[0] : null;
     }
 }
