@@ -14,11 +14,11 @@
                             <a
                                 @class([
                                     'waves-effect waves-light btn mb-2',
-                                    'grey lighten-1' => $category->id !== $categoryId
+                                    'grey lighten-1' => $category['id'] !== $categoryId
                                 ])
-                                wire:click.prevent="selectCategory({{ $category->id }})"
+                                wire:click.prevent="selectCategory({{ $category['id'] }})"
                             >
-                                {{ $category->name }}
+                                {{ $category['name'] }}
                             </a>
                         @endforeach
 
@@ -40,11 +40,11 @@
                                     <a
                                         @class([
                                             'waves-effect waves-light btn mb-2',
-                                            'grey lighten-1' => $category->id !== $categoryId
+                                            'grey lighten-1' => $category['id'] !== $categoryId
                                         ])
-                                        wire:click.prevent="selectCategory({{ $category->id }})"
+                                        wire:click.prevent="selectCategory({{ $category['id'] }})"
                                     >
-                                        {{ $category->name }}
+                                        {{ $category['name'] }}
                                     </a>
                                 @endforeach
                             @endif

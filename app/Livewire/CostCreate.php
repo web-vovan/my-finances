@@ -3,8 +3,6 @@
 namespace App\Livewire;
 
 use App\Adapters\VovanDB;
-use App\Models\Category;
-use App\Models\Cost;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
@@ -27,16 +25,6 @@ class CostCreate extends Component
     public function save()
     {
         $uuid = Uuid::uuid4();
-
-        Cost::create([
-            'uuid' =>  $uuid,
-            'price' => $this->price,
-            'category_id' => $this->categoryId,
-            'user_id' => auth()->user()->id,
-            'date' => Carbon::create($this->date ?? Carbon::now())
-                ->toDateString(),
-            'comment' => $this->comment
-        ]);
 
         VovanDB::query("
             INSERT INTO costs
@@ -67,16 +55,22 @@ class CostCreate extends Component
 
     public function render(): View
     {
+        $notHideCategories = VovanDB::select("
+            SELECT * 
+            FROM categories 
+            WHERE is_hide = false"
+        );
+
+        $hideCategories = VovanDB::select("
+            SELECT * 
+            FROM categories 
+            WHERE is_hide = true"
+        );
+
         return view('livewire.cost-create')
             ->with([
-                'categories' => Category::query()
-                    ->where('is_hide', false)
-                    ->orderBy('id')
-                    ->get(),
-                'hideCategories' => Category::query()
-                    ->where('is_hide', true)
-                    ->orderBy('id')
-                    ->get(),
+                'categories' => $notHideCategories,
+                'hideCategories' => $hideCategories,
             ]);
     }
 }

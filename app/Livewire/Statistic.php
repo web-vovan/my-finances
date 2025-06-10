@@ -4,8 +4,6 @@ namespace App\Livewire;
 
 use App\Adapters\VovanDB;
 use Carbon\Carbon;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class Statistic extends Component
@@ -14,7 +12,6 @@ class Statistic extends Component
     public int $year;
 
     public int $totalPrice;
-    public int $totalPrice2;
 
     public ?int $startYearPeriod;
     public ?int $startMonthPeriod;
@@ -23,10 +20,8 @@ class Statistic extends Component
     public ?int $endMonthPeriod;
 
     public array $dateData;
-    public array $dateData2;
 
-    public Collection $priceData;
-    public array $priceData2;
+    public array $priceData;
 
     public $isFamily = false;
     public $isPeriod = false;
@@ -36,11 +31,9 @@ class Statistic extends Component
         $this->month = date('n');
         $this->year = date('Y');
 
-        // $this->dateData = $this->getDateData();
-        $this->dateData = $this->getDateData2();
+        $this->dateData = $this->getDateData();
 
         $this->priceData = $this->getPriceData();
-        $this->priceData2 = $this->getPriceData2();
 
         if (!isset($this->dateData[$this->year])) {
             $this->dateData[$this->year] = [];
@@ -65,37 +58,6 @@ class Statistic extends Component
      */
     public function getDateData(): array
     {
-        $data = DB::table('costs')
-            ->select([
-                DB::raw('YEAR(date) as year'),
-                DB::raw('MONTH(date) as month')
-            ])
-            ->distinct()
-            ->orderBy(DB::raw('YEAR(date)'))
-            ->orderBy(DB::raw('MONTH(date)'))
-            ->get();
-
-        $data->map(function($item) {
-            $item->monthName = getMonthName($item->month);
-        });
-
-        return $data->reduce(function($acc, $item) {
-            $acc[$item->year][] = [
-                'month' => $item->month,
-                'monthName' => $item->monthName,
-            ];
-
-            return $acc;
-        }, []);
-    }
-
-    /**
-     * Данные по годам и месяцам
-     *
-     * @return array
-     */
-    public function getDateData2(): array
-    {
         $rawData = VovanDB::select('SELECT date FROM costs ORDER BY date ASC');
 
         // Оставляем уникальные даты
@@ -116,70 +78,18 @@ class Statistic extends Component
                 ];
             }, $item);
 
-            $this->dateData2[$key] = array_values($months);
+            $this->dateData[$key] = array_values($months);
         }
  
-        return $this->dateData2;
+        return $this->dateData;
     }
 
     /**
      * Данные по расходам
      *
-     * @return Collection
+     * @return array
      */
-    public function getPriceData(): Collection
-    {
-        $users = $this->isFamily
-            ? DB::table('users')
-                ->select('id')
-                ->where('family_id', '=', auth()->user()->family_id)
-                ->get()
-                ->pluck('id')
-                ->toArray()
-            : [auth()->user()->id];
-
-        $builder = DB::table('costs as t1')
-            ->select(DB::raw('SUM(t1.price) as totalPrice'), 't2.name')
-            ->leftJoin('categories as t2', 't1.category_id', '=', 't2.id')
-            ->whereIn('user_id', $users)
-            ->groupBy('t2.name')
-            ->orderByDesc('totalPrice');
-
-        if ($this->isPeriod) {
-            $builder
-                ->where('date', '>=', Carbon::create($this->startYearPeriod, $this->startMonthPeriod))
-                ->where('date', '<=', Carbon::create($this->endYearPeriod, $this->endMonthPeriod)->endOfMonth());
-        } else {
-            $builder
-                ->whereMonth('date', $this->month)
-                ->whereYear('date', $this->year);
-        }
-
-        $data = $builder->get();
-
-        $percentRatio = collect(
-            percentRatio(
-                $data
-                    ->map(fn ($item) => (int) $item->totalPrice)
-                    ->toArray()
-            )
-        );
-
-        $this->totalPrice = $data->sum('totalPrice');
-
-        return $data->each(function($item) use ($percentRatio) {
-            $item->percent = $percentRatio
-                ->where('item', $item->totalPrice)
-                ->value('percent');
-        });
-    }
-
-    /**
-     * Данные по расходам
-     *
-     * @return Collection
-     */
-    public function getPriceData2(): array
+    public function getPriceData(): array
     {
         // Категории
         $categories = array_reduce(VovanDB::select('SELECT * FROM categories'), function ($acc, $item) {
@@ -239,7 +149,7 @@ class Statistic extends Component
             percentRatio(array_map(fn($item) => $item['totalPrice'], $data))
         );
 
-        $this->totalPrice2 = array_reduce($data, function($acc, $item) {
+        $this->totalPrice = array_reduce($data, function($acc, $item) {
             return $acc + $item['totalPrice'];
         }, 0);
 
@@ -293,7 +203,6 @@ class Statistic extends Component
     public function changeOption()
     {
         $this->priceData = $this->getPriceData();
-        $this->priceData2 = $this->getPriceData2();
     }
 
     public function render()

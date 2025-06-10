@@ -10,12 +10,10 @@
                 <div class="left-align">
                     <div>Расходы за {{ $month }}:</div>
                     <div class="flow-text font-weight-bold">{{ priceFormat($monthTotal) }}</div>
-                    <div class="grey-text">{{ priceFormat($monthTotal2) }}</div>
                 </div>
                 <div class="right-align">
                     <div>Расходы за сегодня:</div>
                     <div class="flow-text font-weight-bold">{{ priceFormat($todayTotal) }}</div>
-                    <div class="grey-text">{{ priceFormat($todayTotal2) }}</div>
                 </div>
             </div>
             <div class="wrap-cost">
@@ -24,16 +22,13 @@
                         @foreach($costs as $key => $cost)
                             <tr>
                                 <td>
-                                    {{ $cost->date->isoFormat('D MMM') }}
-                                    <div class="grey-text">{{ $costs2[$key]['date'] }}</div>
+                                   {{ $costs[$key]['date'] }}
                                 </td>
                                 <td>
-                                    {{ $cost->priceFormat }}
-                                    <div class="grey-text">{{ $costs2[$key]['price'] }}</div>
+                                    {{ $costs[$key]['price'] }}
                                 </td>
                                 <td>
-                                    {{ $cost->category?->name }}
-                                    <div class="grey-text">{{ $costs2[$key]['category'] }}</div>
+                                    {{ $costs[$key]['category'] }}
                                 </td>
                                 <td>
                                     <a href="#" class="secondary-content dropdown-trigger" data-target="dropdown{{ $key }}">
@@ -41,13 +36,13 @@
                                     </a>
                                     <ul id="dropdown{{ $key }}"  class="dropdown-content edit-list">
                                         <li>
-                                            <a href="/costs/{{ $cost->uuid }}/edit">
+                                            <a href="/costs/{{ $costs[$key]['uuid'] }}/edit">
                                                 <i class="material-icons mr-0">edit</i>
                                             </a>
                                         </li>
                                         <li class="divider" tabindex="-1"></li>
                                         <li>
-                                            <a href="#" class="delete-btn" data-cost-uuid="{{ $cost->uuid }}" data-cost2-uuid="{{ $costs2[$key]['uuid'] }}">
+                                            <a href="#" class="delete-btn" data-cost-uuid="{{ $costs[$key]['uuid'] }}">
                                                 <i class="material-icons mr-0">delete</i>
                                             </a>
                                         </li>
@@ -87,14 +82,12 @@
             btn.addEventListener('click', (event) => {
                 instance.open()
                 confirmButton.dataset.costUuid = event.currentTarget.dataset.costUuid
-                confirmButton.dataset.cost2Uuid = event.currentTarget.dataset.cost2Uuid
             })
         })
 
         confirmButton.addEventListener('click', (event) => {
             Livewire.dispatch('delete-cost', {
                 'uuid': event.currentTarget.dataset.costUuid,
-                'uuid2': event.currentTarget.dataset.cost2Uuid
             });
 
             instance.close()

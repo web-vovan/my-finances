@@ -3,7 +3,6 @@
 namespace App\Livewire;
 
 use App\Adapters\VovanDB;
-use App\Models\Category;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
@@ -18,20 +17,15 @@ class CategoryEdit extends Component
 
     public function mount($uuid)
     {
-        $this->category = Category::where('uuid', $uuid)->firstOrFail();
-        $this->category2 = VovanDB::select("SELECT * FROM categories WHERE uuid = '" . $uuid . "'")[0];
+        $this->category = VovanDB::select("SELECT * FROM categories WHERE uuid = '" . $uuid . "'")[0];
 
-        $this->name = $this->category->name;
-        $this->isHide = $this->category->is_hide;
+        $this->name = $this->category['name'];
+        $this->isHide = $this->category['is_hide'];
     }
 
     public function save()
     {
         $this->validate();
-
-        $this->category->name = $this->name;
-        $this->category->is_hide = $this->isHide;
-        $this->category->save();
 
         VovanDB::query("
             UPDATE categories
@@ -39,7 +33,7 @@ class CategoryEdit extends Component
                 name = '" . $this->name . "',
                 is_hide = " . ($this->isHide ? 'true' : 'false') . "
             WHERE
-                uuid = '" . $this->category2['uuid'] . "'
+                uuid = '" . $this->category['uuid'] . "'
         ");
 
         return redirect()->to('/categories');

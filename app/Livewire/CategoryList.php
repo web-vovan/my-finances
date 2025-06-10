@@ -3,24 +3,25 @@
 namespace App\Livewire;
 
 use App\Adapters\VovanDB;
-use App\Models\Category;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
 class CategoryList extends Component
 {
     #[On('delete-category')]
-    public function deleteCategory(int $categoryId)
+    public function deleteCategory(string $uuid)
     {
-        Category::destroy($categoryId);
+        VovanDB::query("
+            DELETE FROM categories
+            WHERE uuid = '" . $uuid . "'"
+        );
 
         return redirect(request()->header('Referer'));
     }
 
     public function render()
     {
-        $categories = Category::all();
-        $categories2 = VovanDB::select("
+        $categories = VovanDB::select("
             SELECT *
             FROM categories
         ");
@@ -28,7 +29,6 @@ class CategoryList extends Component
         return view('livewire.category-list')
             ->with([
                 'categories' => $categories,
-                'categories2' => $categories2
             ]);
     }
 }
