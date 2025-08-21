@@ -72,7 +72,7 @@
                 wire:click="changePeriod"
                 wire:model="isPeriod"
             >today</i>
-            <i
+            <!-- <i
                 @class([
                     'material-icons',
                     'prefix',
@@ -82,7 +82,7 @@
                 ])
                 wire:click="changeFamily"
                 wire:model="isFamily"
-            >people</i>
+            >people</i> -->
         </div>
     </div>
 

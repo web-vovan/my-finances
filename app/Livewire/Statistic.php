@@ -99,9 +99,9 @@ class Statistic extends Component
 
         $sql = "SELECT * FROM costs";
 
-        if (!$this->isFamily) {
+        // if (!$this->isFamily) {
             $sql .= ' WHERE user_id = ' . auth()->user()->id;
-        }
+        // }
 
         $costs = VovanDB::select($sql);
 

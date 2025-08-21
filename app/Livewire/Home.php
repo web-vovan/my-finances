@@ -73,7 +73,7 @@ class Home extends Component
             return $acc;
         }, []);
 
-        $costs = array_slice($costsData, 0, 30);
+        $costs = array_slice($costsData, 0, 50);
 
         $costs = array_map(function ($item) use ($categories) {
             $item['date'] = Carbon::create($item['date'])->isoFormat('D MMM');
