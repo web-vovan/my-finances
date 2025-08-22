@@ -51,8 +51,7 @@ class CostEdit extends Component
     {
         $categories = VovanDB::select("
             SELECT * 
-            FROM categories 
-            WHERE is_hide = false"
+            FROM categories"
         );
 
         return view('livewire.cost-create')
